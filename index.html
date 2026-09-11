@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date pour Amélie 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hearts {
+            font-size: 50px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        h1 {
+            color: #764ba2;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .message {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .yes-btn:active {
+            transform: scale(0.95);
+        }
+
+        .no-btn {
+            background: #f0f0f0;
+            color: #764ba2;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-btn:hover {
+            background: #e0e0e0;
+            transform: scale(0.95);
+        }
+
+        .no-btn:active {
+            transform: scale(0.9);
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f8ff;
+            border-radius: 20px;
+            animation: pop 0.5s ease-out;
+        }
+
+        @keyframes pop {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result.yes {
+            background: #fff0f5;
+            border: 2px solid #ff69b4;
+        }
+
+        .result.yes h2 {
+            color: #ff69b4;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .result.yes p {
+            color: #ff1493;
+            font-size: 18px;
+        }
+
+        .result.no {
+            background: #fff8dc;
+            border: 2px solid #ffa500;
+        }
+
+        .result.no h2 {
+            color: #ffa500;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .result.no p {
+            color: #ff8c00;
+            font-size: 18px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            pointer-events: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .message {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+
+            .hearts {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts">💕 💌 💕</div>
+        <h1>Amélie...</h1>
+        <p class="message">
+            Tu me plairais? 🥰<br><br>
+            Veux-tu aller en date avec moi?
+        </p>
+        <div class="buttons">
+            <button class="yes-btn" onclick="sayYes()">Oui! 💕</button>
+            <button class="no-btn" onclick="sayNo()">Non 😅</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function sayYes() {
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <h2>Yesss! 🎉</h2>
+                <p>C'est officiel! On a un date! 💕<br><br>À bientôt Amélie! 😊</p>
+            `;
+            result.className = 'result yes';
+            result.style.display = 'block';
+            createConfetti();
+            // Cache les boutons
+            document.querySelector('.buttons').style.display = 'none';
+        }
+
+        function sayNo() {
+            const result = document.getElementById('result');
+            const noBtn = document.querySelector('.no-btn');
+            
+            // Le bouton "Non" s'enfuit!
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = Math.random() * window.innerWidth + 'px';
+            noBtn.style.top = Math.random() * window.innerHeight + 'px';
+            
+            result.innerHTML = `
+                <h2>Allez... 🥺</h2>
+                <p>Réfléchis-y! 😊</p>
+            `;
+            result.className = 'result no';
+            result.style.display = 'block';
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.background = ['#ff69b4', '#ffc0cb', '#ff1493', '#ffb6c1'][Math.floor(Math.random() * 4)];
+                confetti.style.animation = `fall ${2 + Math.random() * 1}s linear forwards`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Animation de chute pour les confettis
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(${window.innerHeight + 20}px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
